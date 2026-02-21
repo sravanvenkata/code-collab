@@ -1,10 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { login, signup } from "../api/auth";
-import { useNavigate } from "react-router-dom";
-import { ensureSocket } from "../socket";
-
-
+import { useNavigate, Link } from "react-router-dom";
 
 export default function AuthPage({ mode }) {
   const [username, setUsername] = useState("");
@@ -28,9 +25,8 @@ export default function AuthPage({ mode }) {
     } catch (err) {
       setError(err.message);
     }
-    
   };
- 
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <motion.div
@@ -51,6 +47,7 @@ export default function AuthPage({ mode }) {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
+            required
             className="w-full px-4 py-3 rounded-lg bg-bg text-white border border-slate-700 focus:border-accent outline-none"
           />
 
@@ -59,6 +56,7 @@ export default function AuthPage({ mode }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            required
             className="w-full px-4 py-3 rounded-lg bg-bg text-white border border-slate-700 focus:border-accent outline-none"
           />
 
@@ -66,12 +64,29 @@ export default function AuthPage({ mode }) {
             <p className="text-red-400 text-sm">{error}</p>
           )}
 
-          <button
-            className="w-full bg-accent py-3 rounded-lg text-white font-semibold hover:opacity-90 transition"
-          >
+          <button className="w-full bg-accent py-3 rounded-lg text-white font-semibold hover:opacity-90 transition">
             {mode === "login" ? "Login" : "Sign Up"}
           </button>
         </form>
+
+        {/* Navigation */}
+        <div className="text-sm text-slate-400 mt-6 text-center">
+          {mode === "login" ? (
+            <>
+              Don’t have an account?{" "}
+              <Link to="/signup" className="text-accent hover:underline">
+                Sign up
+              </Link>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <Link to="/login" className="text-accent hover:underline">
+                Log in
+              </Link>
+            </>
+          )}
+        </div>
       </motion.div>
     </div>
   );
