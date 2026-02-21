@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import EditorPage from "./EditorPage";
 import ProtectedRoute from './components/ProtectedRoute';
-import Dashboard from "./pages/DashBoard";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
