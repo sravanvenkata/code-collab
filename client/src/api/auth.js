@@ -1,5 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL;
-
+const API_URL = 'http://localhost:5000';
+// import.meta.env.VITE_API_URL
 export async function login(username, password) {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
@@ -18,6 +18,10 @@ export async function signup(username, password) {
     body: JSON.stringify({ username, password }),
   });
 
-  if (!res.ok) throw new Error("Signup failed");
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.error || "Signup failed");
+  }
+
   return res.json();
 }

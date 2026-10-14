@@ -5,6 +5,8 @@ import { getRooms, deleteRoom } from "../api/rooms";
 import RoomCard from "../components/RoomCard";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { disconnectSocket } from "../socket";
+import { LogOut } from "lucide-react";
 
 
 
@@ -32,6 +34,12 @@ const handleDelete = async (roomId) => {
   setOwnedRooms(ownedRooms.filter(r => r.roomId !== roomId));
 };
 
+const logout = () => {
+  localStorage.removeItem("token");
+  disconnectSocket();
+  window.location.href = "/login";
+};
+
 
   return (
     <div className="min-h-screen bg-bg text-white p-8 relative">
@@ -41,6 +49,15 @@ const handleDelete = async (roomId) => {
   <div className="text-sm text-slate-400">
     Logged in as <span className="text-white font-medium">{user?.username}</span>
   </div>
+
+        <button
+          onClick={logout}
+          className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-rose-400/30 hover:bg-rose-400/10 hover:text-rose-300"
+          title="Logout"
+        >
+          <LogOut size={16} />
+          Logout
+        </button>
 
         <button
           onClick={() => setShowPanel(true)}
